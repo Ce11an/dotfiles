@@ -45,4 +45,5 @@ stow .
 ## Credits
 
 - [Dreams of Autonomy](https://youtu.be/y6XCebnB9gs?si=DBYB0mw6psBMK4Xn)
+- [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)
 
