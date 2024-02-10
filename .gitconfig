@@ -10,4 +10,20 @@
 	defaultBranch = main
 [fetch]
 	prune = true
+[hub]
+        protocol = ssh
+[github]
+        user = Ce11an
+[core]
+        excludesfile = ~/.gitignore
+        editor = vim
+        autocrlf = false
+        eol = lf
+[color]
+        diff = auto
+        status = auto
+        branch = auto
+        ui = true
+[pull]
+	rebase = false
 
