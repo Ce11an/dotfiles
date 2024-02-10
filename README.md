@@ -27,7 +27,7 @@ brew install stow
 First, clone this repo in your `$HOME` directory using Git.
 
 ```posh
-git clone git@github.com:dreamsofautonomy/dotfiles.git
+git clone git@github.com:Ce11an/dotfiles.git
 ```
 
 then
@@ -41,4 +41,8 @@ finally
 ```posh
 stow .
 ```
+
+## Credits
+
+- [Dreams of Autonomy](https://youtu.be/y6XCebnB9gs?si=DBYB0mw6psBMK4Xn)
 
