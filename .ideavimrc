@@ -1,0 +1,113 @@
+"" Source your .vimrc
+"source ~/.vimrc
+"" .ideavimrc - Cellan Hall
+
+"" Base Settings
+"" ========================================================
+
+set scrolloff=10
+set relativenumber
+set showmode
+set showcmd
+
+set smartcase
+set incsearch
+set hlsearch
+
+set visualbell
+
+" Use system clipboard
+set clipboard+=unnamed
+
+let mapleader = " "
+
+"" Plugin Settings
+"" ========================================================
+
+set surround
+set highlightedyank
+set nerdtree
+
+" Easymotion settings
+set easymotion
+
+set notimeout
+
+"" Key mappings
+"" ========================================================
+
+" Jump between methods
+map [[ <Action>(MethodUp)
+map ]] <Action>(MethodDown)
+
+" Easy visual indentation
+vnoremap < <gv
+vnoremap > >gv
+
+"Easy vertical jumps
+vnoremap <c-D> <c-d>zz
+vnoremap <c-D> <c-u>zz
+
+"Pane Navigation
+nnoremap <A-h> <C-w>h
+nnoremap <A-l> <C-w>l
+
+"" Leader commands
+"" ========================================================
+
+" Comment lines
+map <leader>c <Action>(CommentByLineComment)
+
+" Open NERDTree (use q to exit)
+map <leader>x :NERDTreeToggle<CR>
+
+" Folding
+map <leader>zc <Action>CollapseAllRegions)
+map <leader>zo <Action>ExpandAllRegions)
+
+" Window splits
+map <leader>wv <Action>(SplitVertically)
+map <leader>ws <Action>(SplitHorizontally)
+map <leader>wu <Action>(Unsplit)
+
+" Display options
+map <leader>dd <action>(ToggleDistractionFreeMode)
+map <leader>dz <action>(ToggleZenMode)
+map <leader>df <action>(ToggleFullScreen)
+
+" Actions
+map <leader>am <action>(ShowIntentionActions)
+map <leader>as <action>(SearchEverywhere)
+
+" File navigation
+map <leader>ff <action>(GotoFile)
+map <leader>fc <action>(FindInPath)
+map <leader>fe <Action>(RecentFiles)
+map <leader>fl <action>(RecentLocations)
+map <leader>fs <action>(NewScratchFile)
+map <leader>t <action>(ActivateTerminalToolWindow)
+
+" Close active tab
+map <leader>q <action>(CloseContent)
+
+" Refactoring
+map <leader>rn <Action>(RenameElement)
+map <leader>rm <Action>(ExtractMethod)
+map <leader>rv <Action>(IntroduceVariable)
+map <leader>rf <Action>(IntroduceField)
+map <leader>rs <Action>(ChangeSignature)
+map <leader>rr <Action>(Refactorings.QuickListPopupAction)
+
+" Go to code
+nmap <leader>gd <Action>(GotoDeclaration)
+nmap <leader>gy <Action>(GotoTypeDeclaration)
+nmap <leader>gi <Action>(GotoImplementation)
+nmap <leader>gu <Action>(ShowUsages)
+nmap <leader>gt <Action>(GotoTest)
+nmap <leader>gb <Action>(Back)
+nmap <leader>gf <Action>(Forward)
+
+"Errors
+map <leader>ge <Action>(GotoNextError)
+map <leader>gE <Action>(GotoPreviousError)
+map <leader>b <Action>(ToggleLineBreakpoint)
