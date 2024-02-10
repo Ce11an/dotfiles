@@ -15,7 +15,7 @@
 [github]
         user = Ce11an
 [core]
-        excludesfile = ~/.gitignore
+        excludesfile = ~/.gitignore_global
         editor = vim
         autocrlf = false
         eol = lf
