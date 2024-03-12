@@ -6,3 +6,5 @@ export PATH="$HOME/.local/bin:$PATH"
 # starship
 eval "$(starship init zsh)"
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
