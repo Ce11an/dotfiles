@@ -16,12 +16,6 @@ Install [Homebrew](https://brew.sh)
 brew install git
 ```
 
-### Stow
-
-```
-brew install stow
-```
-
 ### Installation
 
 First, clone this repo in your `$HOME` directory using Git.
@@ -30,13 +24,30 @@ First, clone this repo in your `$HOME` directory using Git.
 git clone git@github.com:Ce11an/dotfiles.git
 ```
 
-then
+and install homebrew packages:
+
+```posh
+brew bundle install --file=.config/.desktop/Brewfile
+```
+
+---
+**NOTE**
+
+A slim version for development can be installed with:
+
+```posh
+brew bundle install --file=.config/.developer/Brewfile
+```
+
+---
+
+finally, run:
 
 ```posh
 cd dotfiles
 ```
 
-finally
+and
 
 ```posh
 stow .
