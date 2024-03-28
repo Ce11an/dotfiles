@@ -57,4 +57,5 @@ stow .
 
 - [Dreams of Autonomy](https://youtu.be/y6XCebnB9gs?si=DBYB0mw6psBMK4Xn)
 - [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)
+- [brew-bundle-brewfile-tips.md](https://gist.github.com/ChristopherA/a579274536aab36ea9966f301ff14f3f#)
 
