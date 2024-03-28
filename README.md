@@ -27,16 +27,15 @@ git clone git@github.com:Ce11an/dotfiles.git
 and install homebrew packages:
 
 ```posh
-brew bundle install --file=.config/.desktop/Brewfile
+brew bundle install --file=~/dotfiles/.config/.desktop/Brewfile
 ```
 
 ---
-**NOTE**
 
 A slim version for development can be installed with:
 
 ```posh
-brew bundle install --file=.config/.developer/Brewfile
+brew bundle install --file=~/dotfiles/.config/.developer/Brewfile
 ```
 
 ---
