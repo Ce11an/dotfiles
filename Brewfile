@@ -1,5 +1,4 @@
 tap "homebrew/bundle"
-tap "homebrew/cask"
 tap "buo/cask-upgrade"
 tap "homebrew/cask-fonts"
 tap "surrealdb/tap"
@@ -29,3 +28,4 @@ cask "spotify"
 cask "slack"
 cask "obsidian"
 cask "google-chrome"
+
