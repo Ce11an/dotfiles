@@ -4,13 +4,9 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.o.termguicolors = true
+
 -- Set to true if you have a Nerd Font installed
 vim.g.have_nerd_font = false
-
--- [[ Setting options ]]
--- See `:help vim.opt`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
 
 -- Make line numbers default
 vim.opt.number = true
@@ -65,6 +61,12 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Disable text wrap.
+vim.opt.wrap = false
+
+-- Column line.
+vim.opt.colorcolumn = '80'
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -86,15 +88,6 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
--- TIP: Disable arrow keys in normal mode
--- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
--- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
--- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
--- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
-
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
@@ -166,8 +159,54 @@ require('lazy').setup({
         topdelete = { text = '‾' },
         changedelete = { text = '~' },
       },
-    },
+      on_attach = function(bufnr)
+        local gitsigns = require 'gitsigns'
+
+        local function map(mode, l, r, opts)
+          opts = opts or {}
+          opts.buffer = bufnr
+          vim.keymap.set(mode, l, r, opts)
+        end
+
+        -- Navigation
+        map('n', ']c', function()
+          if vim.wo.diff then
+            vim.cmd.normal { ']c', bang = true }
+          else
+            gitsigns.nav_hunk 'next'
+          end
+        end)
+
+        map('n', '[c', function()
+          if vim.wo.diff then
+            vim.cmd.normal { '[c', bang = true }
+          else
+            gitsigns.nav_hunk 'prev'
+          end
+        end)
+
+        -- Actions
+        map('n', '<leader>hs', gitsigns.stage_hunk, { desc = '[S]tage the current hunk' })
+        map('n', '<leader>hr', gitsigns.reset_hunk, { desc = '[R]eset the current hunk' })
+        map('v', '<leader>hs', function()
+          gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
+        end)
+        map('v', '<leader>hr', function()
+          gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
+        end)
+        map('n', '<leader>hS', gitsigns.stage_buffer, { desc = '[S]tage the entire buffer' })
+        map('n', '<leader>hu', gitsigns.undo_stage_hunk, { desc = '[U]ndo the last hunk stage operation' })
+        map('n', '<leader>hR', gitsigns.reset_buffer, { desc = '[R]eset the entire buffer' })
+        map('n', '<leader>hp', gitsigns.preview_hunk, { desc = "[P]review the current hunk's changes" })
+        map('n', '<leader>hb', function()
+          gitsigns.blame_line { full = true, desc = '[B]lame the current line' }
+        end)
+        map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[T]oggle the blame information for the current line' })
+        map('n', '<leader>hd', gitsigns.diffthis, { desc = '[Diff] the current file' })
+        map('n', '<leader>td', gitsigns.toggle_deleted, { desc = '[T]oggle [D]eleted line as virtual text' })
+      end
   },
+},
 
   -- NOTE: Plugins can also be configured to run lua code when they are loaded.
   --
