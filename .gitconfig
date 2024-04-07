@@ -25,5 +25,12 @@
         branch = auto
         ui = true
 [pull]
-	rebase = false
+	ff = only
+
+[merge]
+        conflictstyle = zdiff3
+[rebase]
+        autosquash = true
+[diff]
+        algorithm = histogram
 
