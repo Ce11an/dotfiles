@@ -29,4 +29,5 @@ cask "spotify"
 cask "slack"
 cask "obsidian"
 cask "google-chrome"
+cask "alt-tab"
 

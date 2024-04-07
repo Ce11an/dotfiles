@@ -20,4 +20,5 @@ cask "alacritty"
 cask "font-jetbrains-mono-nerd-font"
 cask "rectangle"
 cask "google-chrome"
+cask "alt-tab"
 
