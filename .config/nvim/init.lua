@@ -502,6 +502,9 @@ require('lazy').setup({
         'stylua', -- Used to format lua code
         'pyright',
         'rust_analyzer',
+        'html',
+        'htmx',
+        'cssls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
