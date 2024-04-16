@@ -523,6 +523,7 @@ require('lazy').setup({
         'html',
         'htmx',
         'cssls',
+        'tsserver',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
