@@ -721,12 +721,21 @@ require('lazy').setup({
         indent = { enable = true },
       }
 
-      -- There are additional nvim-treesitter modules that you can use to interact
-      -- with nvim-treesitter. You should go explore a few and see what interests you:
-      --
-      --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-      --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-      --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+      local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+      parser_config.surrealql = {
+        install_info = {
+          url = '/Users/cellanhall/Developer/tree-sitter-surrealql',
+          files = { 'src/parser.c' },
+          branch = 'main',
+        },
+        filetype = 'surql',
+      }
+      vim.treesitter.language.register('surrealql', 'surql')
+      vim.filetype.add {
+        extension = {
+          surql = 'surql',
+        },
+      }
     end,
   },
 
