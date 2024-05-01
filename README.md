@@ -1,3 +1,5 @@
+# bump
+
 # dotfiles
 
 Configuration for my dotfiles for MacOs.
