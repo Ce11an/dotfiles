@@ -1,0 +1,13 @@
+name: pr
+
+on:
+ pull_request:
+   branches:
+     - main
+
+jobs:
+ hello-world-pr:
+   runs-on: ubuntu-latest
+   steps:
+     - name: say-hello-world
+       run: echo "Hello World!"
