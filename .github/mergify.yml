@@ -1,0 +1,65 @@
+queue_rules:
+  - name: default
+    checks_timeout: 8 h
+    merge_method: squash
+    queue_conditions:
+      - check-success=Summary
+      - check-success=hello-world-pr
+    priority_rules:
+      - name: default
+        conditions:
+          - -label=flag:urgent
+        priority: medium
+      - name: urgent
+        conditions:
+          - label=flag:urgent
+        priority: high
+    branch_protection_injection_mode: merge
+    merge_conditions:
+      - "#commits-behind==0"
+      - "label=flag:merge"
+      - check-success=hello-world-pr
+
+pull_request_rules:
+  - name: add-to-merge-queue
+    conditions:
+      - -draft
+      - -closed
+      - -merged
+      - -conflict
+      - base=main
+      - label=flag:merge
+    actions:
+      queue:
+  - name: remove-merge-on-failure
+    conditions:
+      - -closed
+      - -merged
+      - -conflict
+      - base=main
+      - check-failure=hello-world-pr
+      - check-success!=hello-world-pr
+      - -label=flag:urgent
+      - label=flag:merge
+      - "#commits-behind=0"
+      - queue-position=0
+    actions:
+      label:
+        remove:
+          - flag:merge
+  - name: remove-merge-label-conflict
+    conditions:
+      - -closed
+      - -merged
+      - base=main
+      - -label=flag:urgent
+      - label=flag:merge
+      - conflict
+    actions:
+      comment:
+        message: The PR has a conflict, removing flag merge.
+      label:
+        remove:
+          - flag:merge
+
+
