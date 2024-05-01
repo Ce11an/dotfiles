@@ -58,4 +58,3 @@ stow .
 - [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)
 - [brew-bundle-brewfile-tips.md](https://gist.github.com/ChristopherA/a579274536aab36ea9966f301ff14f3f#)
 
-bump 1
