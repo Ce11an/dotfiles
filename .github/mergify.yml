@@ -1,0 +1,130 @@
+queue_rules:
+  - name: default
+    checks_timeout: 8 h
+    merge_method: squash
+    queue_conditions:
+      - check-success=Summary
+      - check-success=pr
+    priority_rules:
+      - name: default
+        conditions:
+          - -label=flag:urgent
+        priority: medium
+      - name: urgent
+        conditions:
+          - label=flag:urgent
+        priority: high
+    branch_protection_injection_mode: merge
+    merge_conditions:
+      - "#commits-behind==0"
+      - "label=flag:merge"
+      - check-success=pr
+
+pull_request_rules:
+  - name: add-to-merge-queue
+    conditions:
+      - -draft
+      - -closed
+      - -merged
+      - -conflict
+      - base=main
+      - label=flag:merge
+    actions:
+      queue:
+  - name: prompt-require-merge-label
+    conditions:
+      - "#approved-reviews-by>=1"
+      - "-label=flag:merge"
+    actions:
+      comment:
+        message: Add the 'flag:merge' label to add your PR to the merge queue, once you're ready. The PR won't merge until all checks have passed successfully.
+  - name: remove-merge-on-failure
+    conditions:
+      - -closed
+      - -merged
+      - -conflict
+      - base=main
+      - check-failure=pr
+      - check-success!=pr
+      - -label=flag:urgent
+      - label=flag:merge
+      - "#commits-behind=0"
+      - queue-position=0
+    actions:
+      label:
+        remove:
+          - flag:merge
+  - name: remove-merge-label-not-approved
+    conditions:
+      - -closed
+      - -merged
+      - base=main
+      - -label=flag:urgent
+      - label=flag:merge
+    actions:
+      comment:
+        message: The PR is not approved by the code owner, removing flag merge.
+      label:
+        remove:
+          - flag:merge
+  - name: remove-merge-label-not-resolved-conversations
+    conditions:
+      - -closed
+      - -merged
+      - base=main
+      - -label=flag:urgent
+      - label=flag:merge
+      - "#review-threads-unresolved>0"
+    actions:
+      comment:
+        message: The PR has unresolved conversations, removing flag merge.
+      label:
+        remove:
+          - flag:merge
+  - name: remove-merge-label-conflict
+    conditions:
+      - -closed
+      - -merged
+      - base=main
+      - -label=flag:urgent
+      - label=flag:merge
+      - conflict
+    actions:
+      comment:
+        message: The PR has a conflict, removing flag merge.
+      label:
+        remove:
+          - flag:merge
+  - name: add-changes-needed-label
+    conditions:
+      - "#changes-requested-reviews-by>=1"
+      - -label=bot:changes needed
+    actions:
+      label:
+        add:
+          - bot:changes needed
+  - name: remove-changes-needed-label
+    conditions:
+      - "#changes-requested-reviews-by<1"
+      - label=bot:changes needed
+    actions:
+      label:
+        remove:
+          - bot:changes needed
+  - name: add-needs-review
+    conditions:
+      - "-draft"
+      - "#approved-reviews-by<1"
+      - "-label=needs review"
+    actions:
+      label:
+        add:
+          - "needs review"
+  - name: remove-needs-review
+    conditions:
+      - "#approved-reviews-by>=1"
+      - "label=needs review"
+    actions:
+      label:
+        remove:
+          - "needs review"
