@@ -58,7 +58,7 @@ program = "/bin/zsh"
 args = ["--login"]
 
 [window]
-decorations = "Transparent"
+decorations = "Buttonless"
 startup_mode = "Maximized"
 
 [window.dimensions]
