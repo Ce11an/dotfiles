@@ -7,7 +7,7 @@ vim.g.maplocalleader = ' '
 vim.o.termguicolors = true
 
 -- Set to true if you have a Nerd Font installed
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- Make line numbers default
 vim.opt.number = true
