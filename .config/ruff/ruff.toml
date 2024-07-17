@@ -1,0 +1,16 @@
+target-version = "py311"
+line-length = 80
+
+[format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = true
+
+[lint]
+select = ["ALL"]
+ignore = ["ISC001", "COM812"]
+
+[lint.pydocstyle]
+convention = "google"
