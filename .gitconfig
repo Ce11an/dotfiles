@@ -1,15 +1,15 @@
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+        clean = git-lfs clean -- %f
+        smudge = git-lfs smudge -- %f
+        process = git-lfs filter-process
+        required = true
 [user]
-	name = Cellan Hall
-	email = hallcellan@gmail.com
+        name = Cellan Hall
+        email = hallcellan@gmail.com
 [init]
 	defaultBranch = main
 [fetch]
-	prune = true
+        prune = true
 [hub]
         protocol = ssh
 [github]
@@ -25,12 +25,18 @@
         branch = auto
         ui = true
 [pull]
-	ff = only
+        ff = only
 
 [merge]
-        conflictstyle = zdiff3
+        conflictstyle = diff3
 [rebase]
         autosquash = true
 [diff]
+        colorMoved = true
         algorithm = histogram
+[interactive]
+        diffFilter = delta --color-only
+[delta]
+        side-by-side = true
+        line-numbers = true
 
