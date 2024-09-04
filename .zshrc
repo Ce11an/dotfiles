@@ -53,12 +53,6 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 alias ls='ls --color'
 alias c='clear'
 
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-export PATH="$HOME/.local/bin:$PATH"
-
 # starship
 eval "$(starship init zsh)"
 
@@ -67,3 +61,5 @@ export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 
 # Setting config
 export XDG_CONFIG_HOME="$HOME/.config"
+
+export PATH="$HOME/.local/bin:$PATH"
