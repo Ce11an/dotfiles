@@ -570,6 +570,8 @@ require('lazy').setup({
     main = 'ibl',
     opts = {},
   },
+
+  require('surrealql').setup(),
 }, {
   ui = {
     icons = vim.g.have_nerd_font and {} or {
