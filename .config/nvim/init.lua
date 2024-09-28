@@ -271,6 +271,7 @@ require('lazy').setup({
       -- Useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
       'hrsh7th/cmp-nvim-lsp',
+      'b0o/schemastore.nvim',
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -388,6 +389,32 @@ require('lazy').setup({
                 -- Ignore all files for analysis to exclusively use Ruff for linting
                 ignore = { '*' },
               },
+            },
+          },
+        },
+        bashls = {},
+        shellcheck = {},
+        shfmt = {},
+        jsonls = {
+          settings = {
+            json = {
+              schemas = require('schemastore').json.schemas(),
+              validate = { enable = true },
+            },
+          },
+        },
+        yamlls = {
+          settings = {
+            yaml = {
+              schemaStore = {
+                -- You must disable built-in schemaStore support if you want to use
+                -- this plugin and its advanced options like `ignore`.
+                enable = false,
+                -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+                url = '',
+              },
+              schemas = require('schemastore').yaml.schemas(),
+              validate = { enable = true },
             },
           },
         },
