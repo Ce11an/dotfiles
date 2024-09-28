@@ -63,3 +63,5 @@ export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export XDG_CONFIG_HOME="$HOME/.config"
 
 export PATH="$HOME/.local/bin:$PATH"
+
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
