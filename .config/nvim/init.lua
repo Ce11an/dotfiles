@@ -392,6 +392,8 @@ require('lazy').setup({
             },
           },
         },
+        gopls = {},
+        golines = {},
         bashls = {},
         shellcheck = {},
         shfmt = {},
