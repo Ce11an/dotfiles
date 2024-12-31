@@ -1,7 +1,7 @@
 theme                          = tokyonight-storm
 font-family                    = JetBrains Mono
 font-thicken                   = false
-font-size                      = 14
+font-size                      = 20
 window-inherit-font-size       = true
 adjust-cursor-thickness        = 3
 adjust-underline-position      = 3
