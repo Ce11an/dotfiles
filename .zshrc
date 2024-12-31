@@ -66,3 +66,7 @@ export PATH="$HOME/.local/bin:$PATH"
 
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
 . ~/.asdf/plugins/golang/set-env.zsh
+
+export GOPATH=$(asdf where golang)/packages
+export GOROOT=$(asdf where golang)/go
+export PATH="${PATH}:$(asdf where golang)/bin"
