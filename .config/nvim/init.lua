@@ -20,7 +20,7 @@ vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-vim.opt.list = true
+vim.opt.list = false
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
@@ -572,7 +572,7 @@ require('lazy').setup({
       end
     end,
   },
-  { -- Highlight, edit, and navigate code
+  {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     main = 'nvim-treesitter.configs',
@@ -585,6 +585,25 @@ require('lazy').setup({
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
+    config = function()
+      local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+
+      parser_config.surrealql = {
+        install_info = {
+          url = 'https://github.com/Ce11an/tree-sitter-surrealql',
+          files = { 'src/parser.c' },
+          branch = 'main',
+        },
+        filetype = 'surql',
+      }
+
+      vim.treesitter.language.register('surrealql', 'surql')
+      vim.filetype.add {
+        extension = {
+          surql = 'surql',
+        },
+      }
+    end,
   },
   { -- Markdown preview
     'iamcco/markdown-preview.nvim',
