@@ -19,3 +19,6 @@ macos-secure-input-indication  = true
 quit-after-last-window-closed  = false
 scrollback-limit               = 4200
 shell-integration              = zsh
+window-decoration              = false
+gtk-titlebar                   = false
+gtk-adwaita                    = false
