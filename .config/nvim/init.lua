@@ -781,6 +781,7 @@ require('lazy').setup({
 
       -- Install python config
       require('dap-python').setup 'python3'
+      require('dap-python').test_runner = 'pytest'
     end,
   },
 
