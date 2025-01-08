@@ -707,9 +707,23 @@ require('lazy').setup({
         end,
         desc = 'Debug: Set Breakpoint',
       },
-      -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
+      {
+        '<F6>',
+        function()
+          require('dap-python').test_method()
+        end,
+        desc = 'Test closest method above the cursor',
+      },
       {
         '<F7>',
+        function()
+          require('dap-python').test_class()
+        end,
+        desc = 'Test closest class above the cursor',
+      },
+      -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
+      {
+        '<F8>',
         function()
           require('dapui').toggle()
         end,
