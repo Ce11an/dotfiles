@@ -589,6 +589,7 @@ require('lazy').setup({
         additional_vim_regex_highlighting = { 'ruby' },
       },
       indent = { enable = true, disable = { 'ruby' } },
+      fold = { enable = true },
     },
     config = function()
       local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
@@ -598,6 +599,8 @@ require('lazy').setup({
           url = 'https://github.com/Ce11an/tree-sitter-surrealql',
           files = { 'src/parser.c' },
           branch = 'main',
+          requires_generate_from_grammar = false,
+          generate_requires_npm = false,
         },
         filetype = 'surql',
       }
