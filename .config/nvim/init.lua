@@ -20,7 +20,7 @@ vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-vim.opt.list = false
+vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
@@ -193,6 +193,7 @@ require('lazy').setup({
       },
       { 'nvim-telescope/telescope-ui-select.nvim' },
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      'debugloop/telescope-undo.nvim',
     },
     config = function()
       -- Clone the default Telescope configuration
@@ -225,8 +226,10 @@ require('lazy').setup({
 
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'undo')
 
       local builtin = require 'telescope.builtin'
+      vim.keymap.set('n', '<leader>u', '<cmd>Telescope undo<cr>', { desc = '[U]ndo tree' })
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
@@ -402,14 +405,7 @@ require('lazy').setup({
         bashls = {},
         shellcheck = {},
         shfmt = {},
-        jsonls = {
-          settings = {
-            json = {
-              schemas = require('schemastore').json.schemas(),
-              validate = { enable = true },
-            },
-          },
-        },
+        terraformls = {},
         yamlls = {
           settings = {
             yaml = {
@@ -627,31 +623,6 @@ require('lazy').setup({
     -- See `:help ibl`
     main = 'ibl',
     opts = {},
-  },
-  {
-    'debugloop/telescope-undo.nvim',
-    dependencies = {
-      {
-        'nvim-telescope/telescope.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-      },
-    },
-    keys = {
-      {
-        '<leader>u',
-        '<cmd>Telescope undo<cr>',
-        desc = 'undo history',
-      },
-    },
-    opts = {
-      extensions = {
-        undo = {},
-      },
-    },
-    config = function(_, opts)
-      require('telescope').setup(opts)
-      require('telescope').load_extension 'undo'
-    end,
   },
   {
     'mfussenegger/nvim-dap',
