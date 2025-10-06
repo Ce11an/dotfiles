@@ -62,11 +62,17 @@ export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 # Setting config
 export XDG_CONFIG_HOME="$HOME/.config"
 
+# local tool
 export PATH="$HOME/.local/bin:$PATH"
 
+# asdf
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
 . ~/.asdf/plugins/golang/set-env.zsh
 
 export GOPATH=$(asdf where golang)/packages
 export GOROOT=$(asdf where golang)/go
 export PATH="${PATH}:$(asdf where golang)/bin"
+
+# ko
+export KO_DEFAULTPLATFORMS="linux/arm64"
+export KO_DOCKER_REPO="docker.io/ce11an"
