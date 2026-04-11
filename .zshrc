@@ -76,3 +76,6 @@ export PATH="${PATH}:$(asdf where golang)/bin"
 # ko
 export KO_DEFAULTPLATFORMS="linux/arm64"
 export KO_DOCKER_REPO="docker.io/ce11an"
+
+# neovim
+export NVIM_APPNAME=nvim-next
