@@ -15,7 +15,6 @@
 -- ========================================================================== --
 --                             GENERAL SETTINGS                               --
 -- ========================================================================== --
-
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
@@ -105,10 +104,12 @@ vim.pack.add({ { src = gh("folke/tokyonight.nvim") } })
 vim.cmd.colorscheme("tokyonight-storm")
 vim.cmd.hi("Comment gui=none")
 
+vim.cmd.hi("LineNr guifg=#828bb8") -- Current/Absolute line number
+vim.cmd.hi("LineNrAbove guifg=#828bb8") -- Relative numbers above the cursor
+vim.cmd.hi("LineNrBelow guifg=#828bb8") -- Relative numbers below the cursor
 -- -------------------------------------------------------------------------- --
 -- ICONS: nvim-web-devicons
 -- -------------------------------------------------------------------------- --
-
 vim.pack.add({ { src = gh("nvim-tree/nvim-web-devicons") } })
 
 -- -------------------------------------------------------------------------- --
@@ -121,7 +122,6 @@ require("which-key").setup({
 		{ "<leader>c", group = "[C]ode", mode = { "n", "x" } },
 		{ "<leader>d", group = "[D]ocument" },
 		{ "<leader>g", group = "[G]it" },
-		{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
 		{ "<leader>r", group = "[R]ename" },
 		{ "<leader>s", group = "[S]earch" },
 		{ "<leader>t", group = "[T]oggle" },
@@ -132,7 +132,7 @@ require("which-key").setup({
 -- -------------------------------------------------------------------------- --
 -- MINI.NVIM: mini-nvim/mini.nvim
 -- -------------------------------------------------------------------------- --
-vim.pack.add({ { src = gh("mini-nvim/mini.nvim") } })
+vim.pack.add({ { src = gh("nvim-mini/mini.nvim") } })
 require("mini.ai").setup({ n_lines = 500 })
 require("mini.surround").setup()
 local statusline = require("mini.statusline")
@@ -255,29 +255,50 @@ map("n", "gW", function()
 	sp.lsp_workspace_symbols()
 end, { desc = "LSP: Workspace Symbols" })
 
+-- Copy the GitHub URL to clipboard instead of opening a remote browser
+map({ "n", "v" }, "<leader>go", function()
+	require("snacks").gitbrowse({
+		open = function(url)
+			vim.fn.setreg("+", url)
+			vim.notify("Copied to clipboard:\n" .. url, vim.log.levels.INFO, { title = "Gitbrowse" })
+		end,
+	})
+end, { desc = "[G]it [O]pen (Copy URL)" })
+
 -- -------------------------------------------------------------------------- --
 -- TREESITTER: nvim-treesitter/nvim-treesitter
 -- -------------------------------------------------------------------------- --
 vim.pack.add({ { src = gh("nvim-treesitter/nvim-treesitter"), version = "main" } })
-require("nvim-treesitter").setup({
-	ensure_installed = {
-		"bash",
-		"c",
-		"diff",
-		"html",
-		"lua",
-		"luadoc",
-		"markdown",
-		"markdown_inline",
-		"query",
-		"vim",
-		"vimdoc",
-		"go",
-		"python",
-		"rust",
-		"yaml",
-	},
-	auto_install = true,
+
+local parsers = {
+	"bash",
+	"c",
+	"diff",
+	"html",
+	"lua",
+	"luadoc",
+	"markdown",
+	"markdown_inline",
+	"query",
+	"vim",
+	"vimdoc",
+	"go",
+	"python",
+	"rust",
+	"yaml",
+}
+
+require("nvim-treesitter").install(parsers)
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldtext = ""
+vim.opt.foldenable = false
+
+vim.api.nvim_create_autocmd("FileType", {
+	group = vim.api.nvim_create_augroup("treesitter-attach", { clear = true }),
+	callback = function(event)
+		pcall(vim.treesitter.start, event.buf)
+	end,
 })
 
 vim.pack.add({ { src = gh("neovim/nvim-lspconfig") } })
@@ -328,17 +349,17 @@ local mason_packages = {
 	-- LSP servers
 	"basedpyright",
 	"ruff",
-	"rust-analyzer",
-	"gopls",
+	-- "rust-analyzer",
+	-- "gopls",
 	"bash-language-server",
 	"terraform-ls",
 	"yaml-language-server",
-	"zls",
+	-- "zls",
 	"lua-language-server",
 	-- Formatters
 	"stylua",
 	"shfmt",
-	"golines",
+	-- "golines",
 }
 
 -- Implemented to decrease start up time
@@ -358,7 +379,7 @@ end, 100)
 -- LSP
 -- -------------------------------------------------------------------------- --
 vim.diagnostic.config({
-	severity_sort = true,
+
 	underline = { severity = vim.diagnostic.severity.ERROR },
 	signs = vim.g.have_nerd_font and {
 		text = {
@@ -375,7 +396,7 @@ vim.lsp.config("*", {
 	on_attach = function(client, bufnr)
 		local lmap = function(keys, func, desc, mode)
 			mode = mode or "n"
-			vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = "LSP: " .. desc })
+			vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = desc })
 		end
 
 		lmap("grn", vim.lsp.buf.rename, "[R]e[n]ame")
@@ -404,17 +425,18 @@ vim.lsp.config("*", {
 	end,
 })
 
-vim.lsp.enable({
+local servers = {
 	"lua_ls",
 	"basedpyright",
 	"ruff",
-	"rust_analyzer",
-	"gopls",
 	"bashls",
 	"terraformls",
 	"yamlls",
-	"zls",
-})
+}
+
+for _, server in ipairs(servers) do
+	vim.lsp.enable(server)
+end
 
 -- -------------------------------------------------------------------------- --
 -- CONFORM: stevearc/conform.nvim
@@ -430,5 +452,6 @@ require("conform").setup({
 		lua = { "stylua" },
 		sh = { "shfmt" },
 		go = { "golines" },
+		python = { "ruff_format", "ruff_fix", "ruff_organize_imports", lsp_format = "first" },
 	},
 })
